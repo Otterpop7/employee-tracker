@@ -23,3 +23,5 @@ npm init, npm i, npm install console.table, npm i inquirer, npm i mysql, npm i e
 ## Command line Screenshot
 
 <img src="./Assets/images/terminal.png" alt="Screenshot Of Application In Terminal" width="400"/>
+
+[Employee Tracker Tutorial](https://drive.google.com/file/d/1fK18XnOOpQQ3nqJGgOFtjIXx0W24piRC/view)
