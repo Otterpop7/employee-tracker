@@ -249,80 +249,137 @@ function viewEmployees() {
 
 function updateEmployeeRoles() {
   console.log("*******************************")
-  let update_emp_roles = "SELECT * FROM role"
+  let update_emp_roles = "SELECT * FROM employee"
   connection.query(update_emp_roles, function (err, data) {
     if (err) throw err
-    let update_role = data.map((role) => {
+    let update_employee = data.map((emp) => {
       return {
-        name: `${role.title} ${role.salary} ${role.department_id}`,
-        value: role.id,
+        name: `${emp.first_name} ${emp.last_name}`,
+        value: emp.id,
       }
     })
-    let update_department = "SELECT * FROM department"
-    connection.query(
-      update_department,
-      function (department_err, department_data) {
-        if (department_err) throw department_err
-        let updated_department = data.map((role) => {
-          console.log(role)
-          return {
-            name: `${role.title}`,
-            value: role.id,
-          }
-        })
-        inquirer
-          .prompt([
-            {
-              type: "list",
-              name: "update_emp_roles",
-              choices: update_role,
-              message: "Which role do you want to update?",
-            },
-            {
-              type: "input",
-              name: "updated_title",
-              message: "Enter new job title.",
-            },
-            {
-              type: "input",
-              name: "updated_salary",
-              message: "Enter new job salary.",
-            },
-            {
-              type: "list",
-              name: "updated_department",
-              message: "Choose new department.",
-              choices: updated_department,
-            },
-          ])
-          .then(function (response) {
-            let item_id
-            for (let i = 0; i < department_data.length; i++) {
-              console.log(department_data[i].id)
-              if (department_data[i].id === response.update_emp_roles) {
-                item_id = department_data[i].id
-              }
+    let job_roles = "SELECT * FROM role"
+    connection.query(job_roles, function (role_err, role_data) {
+      if (role_err) throw role_err
+      let emp_roles = role_data.map((role) => {
+        console.log(role)
+        return {
+          name: `${role.title}`,
+          value: role.id,
+        }
+      })
+      inquirer
+        .prompt([
+          {
+            type: "list",
+            name: "updating_employee",
+            choices: update_employee,
+            message: "Which employee do you want to update?",
+          },
+          {
+            type: "list",
+            name: "job_roles",
+            choices: emp_roles,
+            message: "which job title do you want to update to?",
+          },
+        ])
+        .then(function (response) {
+          connection.query(
+            "UPDATE employee SET ? WHERE ?",
+            [
+              {
+                role_id: response.job_roles,
+              },
+              {
+                id: response.updating_employee,
+              },
+            ],
+            function (err, data) {
+              if (err) throw err
+              console.log(data)
+              start()
             }
-            connection.query(
-              "UPDATE role SET ? WHERE ?",
-              [
-                {
-                  title: response.updated_title,
-                  salary: response.updated_salary,
-                  department_id: response.updated_department,
-                },
-                {
-                  id: item_id,
-                },
-              ],
-              function (err, data) {
-                if (err) throw err
-                console.log(data)
-                start()
-              }
-            )
-          })
-      }
-    )
+          )
+        })
+    })
   })
 }
+// function updateEmployeeRoles() {
+//   console.log("*******************************")
+//   let update_emp_roles = "SELECT * FROM role"
+//   connection.query(update_emp_roles, function (err, data) {
+//     if (err) throw err
+//     let update_role = data.map((role) => {
+//       return {
+//         name: `${role.title} ${role.salary} ${role.department_id}`,
+//         value: role.id,
+//       }
+//     })
+//     let update_department = "SELECT * FROM department"
+//     connection.query(
+//       update_department,
+//       function (department_err, department_data) {
+//         if (department_err) throw department_err
+//         let updated_department = data.map((role) => {
+//           console.log(role)
+//           return {
+//             name: `${role.title}`,
+//             value: role.id,
+//           }
+//         })
+//         inquirer
+//           .prompt([
+//             {
+//               type: "list",
+//               name: "update_emp_roles",
+//               choices: update_role,
+//               message: "Which role do you want to update?",
+//             },
+//             {
+//               type: "input",
+//               name: "updated_title",
+//               message: "Enter new job title.",
+//             },
+//             {
+//               type: "input",
+//               name: "updated_salary",
+//               message: "Enter new job salary.",
+//             },
+//             {
+//               type: "list",
+//               name: "updated_department",
+//               message: "Choose new department.",
+//               choices: updated_department,
+//             },
+//           ])
+//           .then(function (response) {
+//             let item_id
+//             for (let i = 0; i < department_data.length; i++) {
+//               console.log(department_data[i].id)
+//               if (department_data[i].id === response.update_emp_roles) {
+//                 item_id = department_data[i].id
+//               }
+//             }
+//             connection.query(
+//               "UPDATE role SET ? WHERE ?",
+//               [
+//                 {
+//                   title: response.updated_title,
+//                   salary: response.updated_salary,
+//                   department_id: response.updated_department,
+//                 },
+//                 {
+//                   id: item_id,
+//                 },
+//               ],
+//               function (err, data) {
+//                 if (err) throw err
+//                 console.log(data)
+//                 start()
+//               }
+//             )
+//           })
+//       }
+//     )
+//   })
+// }
