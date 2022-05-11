@@ -1,0 +1,26 @@
+{
+  "name": "employee_tracker",
+  "version": "1.0.0",
+  "description": "build a solution for managing a company's employees using node, inquirer, and mySQL. Content Management System.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \\\"Error: no test specified\\\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Otterpop7/employee_tracker.git"
+  },
+  "author": "Jordan Otterson",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Otterpop7/employee_tracker/issues"
+  },
+  "homepage": "https://github.com/Otterpop7/employee_tracker#readme",
+  "dependencies": {
+    "dotenv": "^16.0.1",
+    "env": "^0.0.2",
+    "inquirer": "^8.2.4",
+    "mysql": "^2.18.1"
+  }
+}
