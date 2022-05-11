@@ -62,7 +62,7 @@ function start() {
         case "View Employees":
           viewEmployees()
           break
-        case "Update Employee Roles":
+        case "Update Employee Role":
           updateEmployeeRoles()
           break
         default:
@@ -264,8 +264,9 @@ function updateEmployeeRoles() {
       function (department_err, department_data) {
         if (department_err) throw department_err
         let updated_department = data.map((role) => {
+          console.log(role)
           return {
-            name: `${role.name}`,
+            name: `${role.title}`,
             value: role.id,
           }
         })
@@ -297,7 +298,8 @@ function updateEmployeeRoles() {
           .then(function (response) {
             let item_id
             for (let i = 0; i < department_data.length; i++) {
-              if (department_data[i].id === response.updateEmployeeRoles) {
+              console.log(department_data[i].id)
+              if (department_data[i].id === response.update_emp_roles) {
                 item_id = department_data[i].id
               }
             }
